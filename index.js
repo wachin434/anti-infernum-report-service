@@ -20,13 +20,13 @@ app.get('/api/reportes', (req, res) =>{
 });
 
 app.get('/api/reportes/:id', (req, res) => {
-    const reportes = reportes.find(c => c.id === parseInt(req.params.id));
-    if(!reportes) return res.status(404).send('Incendios no ubicado')
-    else res.send(reportes);
+    const reporte = reportes.find(c => c.id === parseInt(req.params.id));
+    if(!reporte) return res.status(404).send('Incendios no ubicado')
+    else res.send(reporte);
 })
 
 app.post('/api/reportes', (req, res) => {
-    const reportes = {
+    const reporte = {
         id: reportes.length + 1,
         zona: req.body.zona,
         ubicacion: req.body.zona,
@@ -34,16 +34,16 @@ app.post('/api/reportes', (req, res) => {
     };
 
     reportes.push(reportes);
-    res.send(reportes);
+    res.send(reporte);
 });
 
 app.delete('/api/reportes/:id', (req, res) => {
-    const reportes = reportes.find(c => c.id === parseInt(req.params.id));
-    if (!reportes) return res.status(404).send('Incendio no ubicado');
+    const reporte = reportes.find(c => c.id === parseInt(req.params.id));
+    if (!reporte) return res.status(404).send('Incendio no ubicado');
     
-    const index = reportes.index(reportes);
+    const index = reportes.indexOf(reporte);
     reportes.splice(index,1);
-    res.send(reportes);
+    res.send(reporte);
 });
 
 app.listen(PORT, () => {
