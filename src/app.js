@@ -1,7 +1,16 @@
 import express from 'express';
-import { query } from './config/db';
+import cors from 'cors';
+import reportRoutes from './routes/report.routes.js';
 
 const app = express();
-const PORT = 3000;
 
-app.get('/')
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/reports', reportRoutes);
+
+app.get('/', (req, res) => {
+  res.send('API de Reportes de incendios');
+});
+
+module.exports = app;
