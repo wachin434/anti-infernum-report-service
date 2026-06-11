@@ -1,4 +1,4 @@
-import {DataTypes} from 'sequelize';
+import { DataTypes } from 'sequelize';
 import conexionBaseDatos from '../config/db.js';
 
 const Reporte = conexionBaseDatos.define('Reporte', {
@@ -19,9 +19,11 @@ const Reporte = conexionBaseDatos.define('Reporte', {
     allowNull: false
   },
   estado: {
-    type: DataTypes.ENUN('activo','controlado','apagado'),
+    type: DataTypes.ENUM('activo','controlado','apagado'),
     defaultValue: 'activo'
   }
 }, {
   timestamps: true
 });
+
+export default Reporte;

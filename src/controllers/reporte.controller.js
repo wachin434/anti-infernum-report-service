@@ -7,10 +7,10 @@ export const createReporte = async (solicitud, respuesta) => {
 
     const nuevoReporte = await Reporte.create({
       titulo,
-      descripcion: descripcion,
+      descripcion,
       ubicacion: {
         type: 'Point' ,
-        coordinates: [parseFloat(longitud), parseFloat[latitud]]
+        coordinates: [parseFloat(longitud), parseFloat(latitud)]
       }
     });
 
@@ -25,6 +25,6 @@ export const obtenerReportes = async (solicitud, respuesta) => {
     const reportes = await Reporte.findAll();
     respuesta.status(200).json({ exito: true, datos: reportes }); 
   }catch ( error ) {
-    respuesta.status(500),json( {exito: false, mensaje: error.message });
+    respuesta.status(500).json( {exito: false, mensaje: error.message });
   }
 };
