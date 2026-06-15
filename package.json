@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "powershell -Command \"$env:NODE_OPTIONS='--experimental-vm-modules'; pnpm exec jest\""
   },
   "keywords": [],
   "author": "",
@@ -18,6 +18,9 @@
       "onFail": "download"
     }
   },
+    "onlyBuiltDependencies": [
+      "unrs-resolver"
+  ],
   "type": "module",
   "dependencies": {
     "cors": "^2.8.6",
@@ -26,5 +29,9 @@
     "pg": "^8.21.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
   }
 }
