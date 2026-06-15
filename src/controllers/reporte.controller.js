@@ -5,6 +5,10 @@ export const createReporte = async (solicitud, respuesta) => {
   try {
     const { titulo, descripcion, latitud, longitud } = solicitud.body;
 
+    if (!titulo || latitud === undefined || longitud === undefined) {
+      return respuesta.status(500).json({ exito: false, mensaje: "Faltan campos obligatorios" });
+    }
+
     const nuevoReporte = await Reporte.create({
       titulo,
       descripcion,
@@ -16,7 +20,7 @@ export const createReporte = async (solicitud, respuesta) => {
 
     respuesta.status(201).json({ exito: true, datos: nuevoReporte });
   } catch( error ) {
-    respuesta.status(500),json({ exito: false, mensaje: error.message });
+    respuesta.status(500).json({ exito: false, mensaje: error.message });
   }
 };
 
