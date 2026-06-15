@@ -7,6 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('/api', enrutadorReportes);
+app.use('/', enrutadorReportes);
 
 export default app;
