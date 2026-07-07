@@ -58,4 +58,54 @@ describe("Controlador de reportes", () => {
             expect(Array.isArray(response.body.datos)).toBe(true);
         });
     });
+
+    describe("PUT /reportes/:id", () => {
+        test("Debe actualizar un reporte existente", async () => {
+            // Creamos uno primero para tener un ID real
+            const original = await request(app).post("/reportes").send({
+                titulo: "Reporte Original",
+                descripcion: "Sin cambios",
+                latitud: -33.5100,
+                longitud: -70.7600
+            });
+            const id = original.body.datos.id;
+
+            const response = await request(app)
+                .put(`/reportes/${id}`)
+                .send({
+                    titulo: "Reporte Modificado",
+                    latitud: -33.6000
+                });
+            expect(response.statusCode).toBe(200);
+            expect(response.body.datos.titulo).toBe("Reporte Modificado");
+            expect(response.body.datos.ubicacion.coordinates[1]).toBe(-33.6000); // Latitud cambiada
+        });
+        test("Debe dar 404 si el reporte no existe", async () => {
+            const response = await request(app)
+                .put("/reportes/9999")
+                .send({ titulo: "Nadie me va a encontrar" });
+
+            expect(response.statusCode).toBe(404);
+        });
+    });
+
+    describe("DELETE /reportes/:id", () => {
+        test("Debe eliminar un reporte correctamente", async () => {
+            const provisional = await request(app).post("/reportes").send({
+                titulo: "Para Borrar",
+                descripcion: "Chao",
+                latitud: -33.5100,
+                longitud: -70.7600
+            });
+            const id = provisional.body.datos.id;
+
+            const response = await request(app).delete(`/reportes/${id}`);
+            expect(response.statusCode).toBe(200);
+            expect(response.body).toHaveProperty("exito", true);
+
+            const verificar = await request(app).get("/reportes");
+            const existe = verificar.body.datos.some(r => r.id === id);
+            expect(existe).toBe(false);
+        });
+    });
 });
